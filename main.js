@@ -70,11 +70,11 @@ let startingInput = {
   "9-4": 1,
 };
 let tries = 10;
-
 updatedCells = 0;
-let pigeonMap = new Map();
-let firstMethodFoundNothing;
 let cellsUpdatedRecord = new Map();
+
+
+
 createBoard(board, startingInput);
 printBoard(board);
 
@@ -96,14 +96,14 @@ for (let l = 0; l < tries; l++) {
       }
       printBoard(board);
     } else {
-      firstMethodFoundNothing = true;
+     
     }
   }
   for (let i = 0; i < 9; i++) {
     //get a possible cells for number
     let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
     console.log("checking "+(i+1))
-    console.log(allPosResult);
+    sudoL.inputPossibleValues(allPosResult);
   }
 
   printBoard(board);
