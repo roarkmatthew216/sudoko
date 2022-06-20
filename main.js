@@ -43,7 +43,7 @@ const createBoard = (board, startingInput) => {
   }
 };
 
-const board = new Map();
+let board = new Map();
 let startingInput = {
   "1-8": 7,
   "2-3": 4,
@@ -69,16 +69,30 @@ let startingInput = {
   "9-1": 2,
   "9-4": 1,
 };
+let tries = 10;
 
 createBoard(board, startingInput);
 printBoard(board);
 
 
 
-
+for(let l = 0;l<tries;l++){
 
 for (let i = 0; i < 9; i++) {
   let allPosResult = sudoL.checkAllPossibleCells(board, i+1);
 
-  sudoL.checkOneOffs(allPosResult,i+1);
+  let oneOff = sudoL.checkOneOffs(allPosResult,i+1,board);
+  console.log(oneOff)
+  if(oneOff.length!=0){
+    for(let j=0;j<oneOff.length;j++){
+        board = sudoL.updateBoard(board,oneOff[j],i+1);
+        
+      }
+      printBoard(board);
+  }
+  
+ 
+
+}
+printBoard(board);
 }

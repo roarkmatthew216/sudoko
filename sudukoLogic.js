@@ -54,7 +54,39 @@ const getTriCellNumber = (row,col)=>{
     
 
 }
-
+const getIndexForTriCell = (triCell)=>{
+    // console.log("tri cell func input = " + triCell)
+    switch(Number(triCell)){
+    case 1:
+      return "1-1"
+      break;
+    case 2:
+      return "1-4"
+      break;
+    case 3:
+      return "1-7"
+      break;
+    case 4:
+      return "4-1"
+      break;
+    case 5:
+      return "4-4"
+      break;
+    case 6:
+      return "4-7"
+      break;
+    case 7:
+      return "7-1"
+      break;
+    case 8:
+      return "1-4"
+      break;
+    case 9:
+      return "7-7"
+      break;
+    
+  }
+}
 
 
 
@@ -163,11 +195,13 @@ const checkAllPossibleCells = (board, number) => {
     return allPossibleCells;
 
 }
-const checkOneOffs=(array,number)=>{
+const checkOneOffs=(array,number,board)=>{
     // how many instance where only one number can fit in a row, col or tirCell
     let rowMap = new Map();
     let colMap = new Map();
     let triMap = new Map();
+
+    oneOffIndex = new Map();
 
     const setValue = (map,tag)=>{
         let outputMap  = map;
@@ -199,8 +233,17 @@ const checkOneOffs=(array,number)=>{
  
     rowMap.forEach((value, key, map) => {
         if(value ==1){
-            console.log(csColors.FgYellow,`row ${key} has ${map.get(key)} locations where ${number} can go`)
-            console.log(csColors.FgWhite)
+            // console.log(csColors.FgBlue,`row ${key} has ${map.get(key)} locations where ${number} can go`)
+            
+            // find index for row.
+            for(let i =0; i<9 ;i++){
+                if(checkCellIfGood(board,`${key}-${i+1}`,number)){
+                    
+                    // console.log(`${key}-${i+1}`)
+                    oneOffIndex.set(`${key}-${i+1}`,'true');
+                }
+            }
+             
         }
         // else{
         //     console.log(`row ${key} has ${map.get(key)} locations where ${number} can go`)
@@ -208,8 +251,15 @@ const checkOneOffs=(array,number)=>{
     } )
     colMap.forEach((value, key, map) => {
         if(value ==1){
-            console.log(csColors.FgYellow,`col ${key} has ${map.get(key)} locations where ${number} can go`)
-            console.log(csColors.FgWhite)
+            // console.log(csColors.FgBlue,`col ${key} has ${map.get(key)} locations where ${number} can go`)
+            
+            for(let i =0; i<9 ;i++){
+                if(checkCellIfGood(board,`${i+1}-${key}`,number)){
+                    // console.log(`${i+1}-${key}`)
+                    oneOffIndex.set(`${i+1}-${key}`,'true');
+                }
+            }
+            // console.log(csColors.FgWhite)
         }
         // else{
         //     console.log(`col ${key} has ${map.get(key)} locations where ${number} can go`)
@@ -217,15 +267,46 @@ const checkOneOffs=(array,number)=>{
     } )
     triMap.forEach((value, key, map) => {
         if(value ==1){
-            console.log(csColors.FgYellow,`Tri ${key} has ${map.get(key)} locations where ${number} can go`)
-            console.log(csColors.FgWhite)
+          
+            // console.log(`Tri ${key} has ${map.get(key)} locations where ${number} can go`)
+            let triCellIndex = getIndexForTriCell(key);
+            
+            let tempRow = Number(triCellIndex.substring(0,1));
+            
+            let tempCol = Number(triCellIndex.substring(2,3));
+           
+            for(let i = tempRow;i<tempRow+3;i++){
+                for(let j =tempCol ;j<tempCol+3;j++){
+                    if(checkCellIfGood(board,`${i}-${j}`,number)){
+                        // console.log(`${i}-${j}`)
+                        oneOffIndex.set(`${i}-${j}`,'true');
+                    }
+                }
+            }
+          
         }
         // else{
         //     console.log(`Tri ${key} has ${map.get(key)} locations where ${number} can go`)
         // }
     } )
+
+    let outPutArray = new Array();
+    let count = 0;
+    oneOffIndex.forEach((value, key,index)=>{
+        outPutArray[count] = key;
+        count++;
+    })
+
+    return outPutArray;
    
 }
 
+const updateBoard = (board,index,number)=>{
+    let newBoard = board;
+    newBoard.set(index,number);
 
-module.exports = { checkCellIfGood, checkOneOffs,checkAllPossibleCells };
+    return newBoard;
+
+}
+
+module.exports = {  checkOneOffs,checkAllPossibleCells,updateBoard};
