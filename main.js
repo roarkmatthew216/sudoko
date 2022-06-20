@@ -78,7 +78,7 @@ printBoard(board);
 
 
 for (let i = 0; i < 9; i++) {
-  let onePossible = sudoL.checkAllPossibleCells(board, i+1);
+  let allPosResult = sudoL.checkAllPossibleCells(board, i+1);
 
-  sudoL.checkOneOffs(onePossible,i+1);
+  sudoL.checkOneOffs(allPosResult,i+1);
 }
