@@ -71,6 +71,8 @@ let startingInput = {
 };
 let tries = 10;
 
+updatedCells = 0;
+let cellsUpdatedRecord = new Map;
 createBoard(board, startingInput);
 printBoard(board);
 
@@ -86,7 +88,8 @@ for (let i = 0; i < 9; i++) {
   if(oneOff.length!=0){
     for(let j=0;j<oneOff.length;j++){
         board = sudoL.updateBoard(board,oneOff[j],i+1);
-        
+        cellsUpdatedRecord.set(oneOff[j],i+1)
+        updatedCells++;
       }
       printBoard(board);
   }
@@ -95,4 +98,6 @@ for (let i = 0; i < 9; i++) {
 
 }
 printBoard(board);
+console.log(cellsUpdatedRecord.size+" cells have been updated")
+console.log(cellsUpdatedRecord)
 }
