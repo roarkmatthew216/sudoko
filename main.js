@@ -99,32 +99,15 @@ for (let l = 0; l < tries; l++) {
       firstMethodFoundNothing = true;
     }
   }
-  // pigeon whole method
-
-  if (firstMethodFoundNothing) {
-    for (let i = 0; i < 9; i++) {
-      let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
-      allPosResult.forEach((element) => {
-        if (pigeonMap.has(element)) {
-          tempObj = pigeonMap.get(element);
-
-          tempArray = tempObj.ary;
-
-          tempArray[tempArray.length] = `${i + 1}`;
-
-          tempCount = tempObj.count;
-          tempCount = Number(tempCount) + 1;
-          tempObj = { count: tempCount, ary: tempArray };
-          pigeonMap.set(element, tempObj);
-        } else {
-          pigeonMap.set(element, { count: 1, ary: [`${i + 1}`] });
-        }
-      });
-    }
-    console.log(pigeonMap);
-    pigeonMap.clear();
+  for (let i = 0; i < 9; i++) {
+    //get a possible cells for number
+    let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
+    console.log("checking "+(i+1))
+    console.log(allPosResult);
   }
+
   printBoard(board);
-  console.log(cellsUpdatedRecord.size + " cells have been updated");
-  console.log(cellsUpdatedRecord);
 }
+
+console.log(cellsUpdatedRecord.size + " cells have been updated");
+console.log(cellsUpdatedRecord);

@@ -309,4 +309,4 @@ const updateBoard = (board,index,number)=>{
 
 }
 
-module.exports = {  checkOneOffs,checkAllPossibleCells,updateBoard};
+module.exports = { checkCellIfGood, checkOneOffs,checkAllPossibleCells,updateBoard};
