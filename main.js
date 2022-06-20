@@ -42,7 +42,7 @@ const createBoard = (board, startingInput) => {
     }
   }
 };
-
+// where program starts
 let board = new Map();
 let startingInput = {
   "1-8": 7,
@@ -72,32 +72,59 @@ let startingInput = {
 let tries = 10;
 
 updatedCells = 0;
-let cellsUpdatedRecord = new Map;
+let pigeonMap = new Map();
+let firstMethodFoundNothing;
+let cellsUpdatedRecord = new Map();
 createBoard(board, startingInput);
 printBoard(board);
 
-
-
-for(let l = 0;l<tries;l++){
-
-for (let i = 0; i < 9; i++) {
-  let allPosResult = sudoL.checkAllPossibleCells(board, i+1);
-
-  let oneOff = sudoL.checkOneOffs(allPosResult,i+1,board);
-  console.log(oneOff)
-  if(oneOff.length!=0){
-    for(let j=0;j<oneOff.length;j++){
-        board = sudoL.updateBoard(board,oneOff[j],i+1);
-        cellsUpdatedRecord.set(oneOff[j],i+1)
+for (let l = 0; l < tries; l++) {
+  firstMethodFoundNothing = false;
+  // on off killer
+  // for every number check for one off and update.
+  for (let i = 0; i < 9; i++) {
+    //get a possible cells for number
+    let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
+    // out od possible cells, check to see if a row, col, or tri cell can has only
+    // one place for that number, if so return location because that where the number needs to go.
+    let oneOff = sudoL.checkOneOffs(allPosResult, i + 1, board);
+    if (oneOff.length != 0) {
+      for (let j = 0; j < oneOff.length; j++) {
+        board = sudoL.updateBoard(board, oneOff[j], i + 1);
+        cellsUpdatedRecord.set(oneOff[j], i + 1);
         updatedCells++;
       }
       printBoard(board);
+    } else {
+      firstMethodFoundNothing = true;
+    }
   }
-  
- 
+  // pigeon whole method
 
-}
-printBoard(board);
-console.log(cellsUpdatedRecord.size+" cells have been updated")
-console.log(cellsUpdatedRecord)
+  if (firstMethodFoundNothing) {
+    for (let i = 0; i < 9; i++) {
+      let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
+      allPosResult.forEach((element) => {
+        if (pigeonMap.has(element)) {
+          tempObj = pigeonMap.get(element);
+
+          tempArray = tempObj.ary;
+
+          tempArray[tempArray.length] = `${i + 1}`;
+
+          tempCount = tempObj.count;
+          tempCount = Number(tempCount) + 1;
+          tempObj = { count: tempCount, ary: tempArray };
+          pigeonMap.set(element, tempObj);
+        } else {
+          pigeonMap.set(element, { count: 1, ary: [`${i + 1}`] });
+        }
+      });
+    }
+    console.log(pigeonMap);
+    pigeonMap.clear();
+  }
+  printBoard(board);
+  console.log(cellsUpdatedRecord.size + " cells have been updated");
+  console.log(cellsUpdatedRecord);
 }

@@ -175,7 +175,7 @@ const checkCellIfGood = (board, index, number) => {
 }
 
 const checkAllPossibleCells = (board, number) => {
-    console.log(`checking one offs for :${number} `)
+    // console.log(`checking one offs for :${number} `)
     let indexCount = 0;
     let allPossibleCells = new Array();
     for (i = 0; i < 9; i++) {
@@ -246,7 +246,7 @@ const checkOneOffs=(array,number,board)=>{
              
         }
         else{
-            console.log(`row ${key} has ${map.get(key)} locations where ${number} can go`)
+            //console.log(`row ${key} has ${map.get(key)} locations where ${number} can go`)
         }
     } )
     colMap.forEach((value, key, map) => {
@@ -262,7 +262,7 @@ const checkOneOffs=(array,number,board)=>{
             // console.log(csColors.FgWhite)
         }
         else{
-            console.log(`col ${key} has ${map.get(key)} locations where ${number} can go`)
+           // console.log(`col ${key} has ${map.get(key)} locations where ${number} can go`)
         }
     } )
     triMap.forEach((value, key, map) => {
@@ -286,7 +286,7 @@ const checkOneOffs=(array,number,board)=>{
           
         }
         else{
-            console.log(`Tri ${key} has ${map.get(key)} locations where ${number} can go`)
+            //console.log(`Tri ${key} has ${map.get(key)} locations where ${number} can go`)
         }
     } )
 
