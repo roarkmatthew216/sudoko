@@ -99,16 +99,21 @@ for (let l = 0; l < tries; l++) {
      
     }
   }
-   let map = new Map();
+    let mainMap = new Map();
+   
   for (let i = 0; i < 9; i++) {
     //get a possible cells for number
     let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
     console.log("checking "+(i+1))
-   map =  sudoL.inputPossibleValues(allPosResult,i+1,map);
-    
+    let res =  sudoL.indexUsage(allPosResult,i+1,mainMap);
+   
+    mainMap =res;
+
   }
-  console.log(map);
-  map.clear();
+  
+  mainMap = sudoL.findHiddenSubSets(mainMap);
+
+  mainMap.clear();
 
   printBoard(board);
 }

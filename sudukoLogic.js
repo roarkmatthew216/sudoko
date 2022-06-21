@@ -281,7 +281,7 @@ const updateBoard = (board, index, number) => {
   return newBoard;
 };
 
-const inputPossibleValues = (array, number,map) => {
+const indexUsage = (array, number,map) => {
     
   array.forEach((value) => {
     if (map.has(value)) {
@@ -294,19 +294,64 @@ const inputPossibleValues = (array, number,map) => {
       map.set(value, { count: 1, ary: [number] });
     }
   });
-  
+
+
+  // console.log(mapRowVersion);
+  // console.log(mapColVersion);
   return map;
 
 };
+const analysisOfTriCell = (triCellArray,triNum)=>{
+  console.log(triNum);
+  
+  triCellArray.forEach((value,key)=>{
+    console.log(value)
+  })
+}
+const findHiddenSubSets= (triMapInput) => {
+  //return new map with excluded hidden pairs
+  let map = triMapInput;
 
-const findHiddenPairs = () => {
-  //only the same tricell
-  //if only two number can fit in the same two places then they go there
+  var mapTirVersion = new Map();
+
+  map.forEach((value,index)=>{
+    
+    let rowT = index.substring(0,1);
+    let colT = index.substring(2,3);
+    let triCelT = getTriCellNumber(rowT,colT);
+    if(mapTirVersion.has(triCelT)){
+      let tempThing = mapTirVersion.get(triCelT);
+      
+      tempThing[tempThing.length] = {index:index,value:value};
+      mapTirVersion.set(triCelT,tempThing);
+    }else{
+      mapTirVersion.set(triCelT,[{
+        index:index,
+        value:value
+      }]
+      )
+    }
+  })
+
+  var mapTirVersion = new Map([...mapTirVersion.entries()].sort());
+
+  mapTirVersion.forEach((value,key)=>{
+    analysisOfTriCell(value,key);
+
+  })
+
+
+  
+
+
+  return mapTirVersion;
 };
 
+
 module.exports = {
-  inputPossibleValues,
+  indexUsage,
   checkOneOffs,
   checkAllPossibleCells,
   updateBoard,
+  findHiddenSubSets
 };
