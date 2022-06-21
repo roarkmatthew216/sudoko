@@ -1,5 +1,6 @@
 //does number exist in row
 const csColors = require("./consoleColors");
+let possibleVals = new Map();
 let pairMap = new Map();
 
 const checkArray = (number, array) => {
@@ -280,10 +281,22 @@ const updateBoard = (board, index, number) => {
   return newBoard;
 };
 
-const inputPossibleValues = (array) => {
+const inputPossibleValues = (array, number,map) => {
+    
   array.forEach((value) => {
-    console.log(value);
+    if (map.has(value)) {
+      let currentObj = map.get(value);
+      let newCount = currentObj.count + 1;
+      let newArray = currentObj.ary;
+      newArray[newCount - 1] = number;
+      map.set(value, { count: newCount, ary: newArray });
+    } else {
+      map.set(value, { count: 1, ary: [number] });
+    }
   });
+  
+  return map;
+
 };
 
 const findHiddenPairs = () => {

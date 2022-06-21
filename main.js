@@ -99,12 +99,16 @@ for (let l = 0; l < tries; l++) {
      
     }
   }
+   let map = new Map();
   for (let i = 0; i < 9; i++) {
     //get a possible cells for number
     let allPosResult = sudoL.checkAllPossibleCells(board, i + 1);
     console.log("checking "+(i+1))
-    sudoL.inputPossibleValues(allPosResult);
+   map =  sudoL.inputPossibleValues(allPosResult,i+1,map);
+    
   }
+  console.log(map);
+  map.clear();
 
   printBoard(board);
 }
